@@ -20,6 +20,9 @@ Used by the Compass team as a sample codebase for dogfooding Compass on real pul
 - Loans last `LOAN_PERIOD_DAYS` (14) days.
 - A member can hold at most `MAX_ACTIVE_LOANS` (3) books at once.
 - A book is "due soon" when it is within `DUE_SOON_DAYS` (2) days of its due date.
+- Returning late costs `LATE_FEE_PER_DAY_CENTS` (25¢) per day or part of a day, capped at
+  `MAX_LATE_FEE_CENTS` ($10) per loan.
+- Members owing more than `FEE_BLOCK_THRESHOLD_CENTS` ($5) cannot borrow until they pay.
 
 ## Run it
 

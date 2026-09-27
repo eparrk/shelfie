@@ -2,7 +2,8 @@ export type ErrorCode =
   | "NOT_FOUND"
   | "UNAVAILABLE"
   | "LIMIT_REACHED"
-  | "ALREADY_RETURNED";
+  | "ALREADY_RETURNED"
+  | "FEES_OWED";
 
 export class ServiceError extends Error {
   constructor(public readonly code: ErrorCode, message: string) {
