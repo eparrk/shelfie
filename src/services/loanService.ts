@@ -5,6 +5,7 @@ import { addDays } from "../utils/dates";
 import { nextId } from "../utils/ids";
 import { isAvailable } from "./catalogService";
 import { ServiceError } from "./errors";
+import { calculateFee } from "./feeService";
 import { assertCanBorrow } from "./memberService";
 
 export function borrow(store: Store, memberId: string, bookId: string, now = new Date()): Loan {
@@ -28,5 +29,7 @@ export function returnBook(store: Store, loanId: string, now = new Date()): Loan
   if (!loan) throw new ServiceError("NOT_FOUND", `No loan ${loanId}`);
   if (loan.returnedAt) throw new ServiceError("ALREADY_RETURNED", `Loan ${loanId} already returned`);
   loan.returnedAt = now;
+  loan.feeCents = calculateFee(loan, now);
+  loan.feePaid = loan.feeCents === 0;
   return loan;
 }

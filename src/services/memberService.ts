@@ -1,9 +1,10 @@
-import { MAX_ACTIVE_LOANS } from "../config";
+import { FEE_BLOCK_THRESHOLD_CENTS, MAX_ACTIVE_LOANS } from "../config";
 import { isActive } from "../models/loan";
 import type { Member } from "../models/member";
 import type { Store } from "../store/memoryStore";
 import { nextId } from "../utils/ids";
 import { ServiceError } from "./errors";
+import { outstandingFees } from "./feeService";
 
 export function addMember(store: Store, name: string, email: string, now = new Date()): Member {
   const member: Member = { id: nextId("member"), name, email, joinedAt: now };
@@ -26,5 +27,9 @@ export function assertCanBorrow(store: Store, memberId: string): void {
   getMember(store, memberId);
   if (activeLoanCount(store, memberId) >= MAX_ACTIVE_LOANS) {
     throw new ServiceError("LIMIT_REACHED", `Member ${memberId} already has ${MAX_ACTIVE_LOANS} books`);
+  }
+  const owed = outstandingFees(store, memberId);
+  if (owed > FEE_BLOCK_THRESHOLD_CENTS) {
+    throw new ServiceError("FEES_OWED", `Member ${memberId} owes ${owed} cents in late fees`);
   }
 }

@@ -5,6 +5,9 @@ export interface Loan {
   borrowedAt: Date;
   dueAt: Date;
   returnedAt?: Date;
+  /** Late fee assessed at return time, in cents. 0 when returned on time. */
+  feeCents?: number;
+  feePaid?: boolean;
 }
 
 export function isActive(loan: Loan): boolean {

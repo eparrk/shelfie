@@ -5,9 +5,9 @@ export function addDays(date: Date, days: number): Date {
 }
 
 /**
- * Whole days from `from` to `to`. Partial days are dropped,
- * so 1.5 days -> 1. Negative when `to` is before `from`.
+ * Days from `from` to `to`, counting any partial day as a full day,
+ * so 1.5 days -> 2. Negative when `to` is before `from`.
  */
 export function daysBetween(from: Date, to: Date): number {
-  return Math.trunc((to.getTime() - from.getTime()) / MS_PER_DAY);
+  return Math.ceil((to.getTime() - from.getTime()) / MS_PER_DAY);
 }

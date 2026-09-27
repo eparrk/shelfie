@@ -12,7 +12,8 @@ describe("dates", () => {
     expect(daysBetween(addDays(T0, 3), T0)).toBe(-3);
   });
 
-  it("drops partial days", () => {
-    expect(daysBetween(T0, addDays(T0, 1.5))).toBe(1);
+  it("counts a partial day as a full day", () => {
+    expect(daysBetween(T0, addDays(T0, 1.5))).toBe(2);
+    expect(daysBetween(T0, addDays(T0, 0.01))).toBe(1);
   });
 });
